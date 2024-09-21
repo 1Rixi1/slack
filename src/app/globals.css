@@ -20,6 +20,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -89,4 +91,11 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+html,
+body:root {
+  width: 100%;
+  min-height: 100%;
 }
