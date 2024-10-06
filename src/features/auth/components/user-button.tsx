@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { useAuthActions } from "@convex-dev/auth/react";
 
-import { useCurrentUser } from "@/features/auth/hooks/use-current-user";
+import { useCurrentUser } from "@/features/auth/api/use-current-user";
 import { Loader, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
