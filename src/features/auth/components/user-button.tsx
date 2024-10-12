@@ -49,7 +49,7 @@ const UserButton = () => {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align={"center"} side={"right"} className="w-60">
+      <DropdownMenuContent align="center" side="right" className="w-60">
         <DropdownMenuItem
           className="cursor-pointer h-10"
           onClick={onClickLogOutHandler}

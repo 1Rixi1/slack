@@ -21,12 +21,27 @@ export const createWorkspace = mutation({
       joinCode,
     });
 
-    return  workspaceId;
+    return workspaceId;
+  },
+});
+
+export const getWorkspaces = query({
+  handler: (ctx) => {
+    return ctx.db.query("workspaces").collect();
   },
 });
 
 export const getWorkspace = query({
-  handler: (ctx) => {
-    return ctx.db.query("workspaces").collect();
+  args: {
+    id: v.id("workspaces"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await auth.getUserId(ctx);
+
+    if (!userId) {
+      throw new Error("UnAuthorized");
+    }
+
+    return ctx.db.get(args.id);
   },
 });

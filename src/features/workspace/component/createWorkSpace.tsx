@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useTriggerModal } from "@/features/workspace/store/store";
+import { useCreateWorkspaceModal } from "@/features/workspace/store/store";
 import { useCreateWorkspace } from "@/features/workspace/api/use-create-workspace";
 import { useRouter } from "next/navigation";
 
@@ -19,7 +19,7 @@ const CreateWorkSpace = () => {
 
   const [name, setName] = useState("");
 
-  const [open, setOpen] = useTriggerModal();
+  const [open, setOpen] = useCreateWorkspaceModal();
 
   const { workspaceMutation, isPending } = useCreateWorkspace();
 
