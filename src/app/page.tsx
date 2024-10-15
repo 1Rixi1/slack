@@ -42,7 +42,6 @@ export default function Home() {
   return (
     <div>
       Home
-      <Modals />
       <UserButton />
       <Button onClick={handleOnClickSignOut}>Sign Out</Button>
     </div>
