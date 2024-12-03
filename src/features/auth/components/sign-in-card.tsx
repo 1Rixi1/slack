@@ -14,14 +14,21 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SignInFlowType } from "@/features/auth/types";
+import { useAuthActions } from "@convex-dev/auth/react";
 
 type SignInCardPropsType = {
   setState: (state: SignInFlowType) => void;
 };
 
 const SignInCard = ({ setState }: SignInCardPropsType) => {
+  const { signIn } = useAuthActions();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleProviderSignIn = (value: "github" | "google") => {
+    signIn(value);
+  };
 
   return (
     <Card className="w-full h-full p-8">
@@ -67,7 +74,7 @@ const SignInCard = ({ setState }: SignInCardPropsType) => {
 
           <Button
             className="w-full relative"
-            onClick={() => {}}
+            onClick={() => handleProviderSignIn("github")}
             size="lg"
             variant="outline"
             disabled={false}
