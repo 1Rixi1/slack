@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <div>
-      <Button onClick={handleClickProviderLogOut}>Log Out</Button>
+      <Button onClick={handleClickProviderLogOut}>Выйти</Button>
     </div>
   );
 }

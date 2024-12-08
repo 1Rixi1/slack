@@ -15,19 +15,40 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SignInFlowType } from "@/features/auth/types";
 import { useAuthActions } from "@convex-dev/auth/react";
+import { TriangleAlert } from "lucide-react";
 
 type SignInCardPropsType = {
   setState: (state: SignInFlowType) => void;
 };
 
 const SignInCard = ({ setState }: SignInCardPropsType) => {
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
+
   const { signIn } = useAuthActions();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleProviderSignIn = (value: "github" | "google") => {
-    signIn(value);
+  const handlePasswordSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setPending(true);
+
+    signIn("password", { email, password, flow: "signIn" })
+      .catch(() => {
+        setError("Неверный Email или Password !");
+      })
+      .finally(() => {
+        setPending(false);
+      });
+  };
+
+  const handleProviderSignIn = (value: "google" | "github") => {
+    setPending(true);
+    signIn(value).finally(() => {
+      setPending(false);
+    });
   };
 
   return (
@@ -36,15 +57,22 @@ const SignInCard = ({ setState }: SignInCardPropsType) => {
         <CardTitle>Войдите в систему</CardTitle>
         <CardDescription>Введите Email и Password</CardDescription>
       </CardHeader>
+      {error && (
+        <div className="bg-destructive/15 text-destructive rounded-md text-sm flex items-center gap-x-3 p-3 mb-6 ">
+          <TriangleAlert className="size-4" />
+          {error}
+        </div>
+      )}
+
       <CardContent className="space-y-5 px-0 pb-0">
-        <form className="space-y-2.5">
+        <form onSubmit={handlePasswordSignIn} className="space-y-2.5">
           <Input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
             placeholder="Email"
             required
-            disabled={false}
+            disabled={pending}
           />
           <Input
             value={password}
@@ -52,9 +80,9 @@ const SignInCard = ({ setState }: SignInCardPropsType) => {
             type="password"
             placeholder="Пароль"
             required
-            disabled={false}
+            disabled={pending}
           />
-          <Button className="w-full" size="lg" type="submit" disabled={false}>
+          <Button className="w-full" size="lg" type="submit" disabled={pending}>
             Войти
           </Button>
         </form>
@@ -63,10 +91,10 @@ const SignInCard = ({ setState }: SignInCardPropsType) => {
         <div className="flex flex-col gap-y-2.5">
           <Button
             className="w-full relative"
-            onClick={() => {}}
+            onClick={() => handleProviderSignIn("google")}
             size="lg"
             variant="outline"
-            disabled={false}
+            disabled={pending}
           >
             Войти с помощью Google
             <FcGoogle className="absolute top-3 left-3" />
@@ -77,7 +105,7 @@ const SignInCard = ({ setState }: SignInCardPropsType) => {
             onClick={() => handleProviderSignIn("github")}
             size="lg"
             variant="outline"
-            disabled={false}
+            disabled={pending}
           >
             Войти с помощью GitHub
             <FaGithub className="absolute top-3 left-3" />
