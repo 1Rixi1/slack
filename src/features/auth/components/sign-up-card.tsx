@@ -25,6 +25,7 @@ const SignUpCard = ({ setState }: SignUpCardPropsType) => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -38,7 +39,7 @@ const SignUpCard = ({ setState }: SignUpCardPropsType) => {
     }
 
     setPending(true);
-    signIn("password", { email, password, flow: "signUp" })
+    signIn("password", { name, email, password, flow: "signUp" })
       .catch(() => {
         setError("Неверный синтаксис пароля !");
       })
@@ -71,6 +72,13 @@ const SignUpCard = ({ setState }: SignUpCardPropsType) => {
       )}
       <CardContent className="space-y-5 px-0 pb-0">
         <form className="space-y-2.5" onSubmit={handlePasswordSignUp}>
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="FullName"
+            required
+            disabled={pending}
+          />
           <Input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
